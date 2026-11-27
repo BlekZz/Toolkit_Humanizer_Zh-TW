@@ -1,0 +1,6 @@
+interface:
+  display_name: "台灣繁中工作寫作"
+  short_description: "用台灣繁中潤飾工作草稿，或根據資料起草可直接使用的文稿"
+  default_prompt: "請用 $humanize-tw 把下面這段工作文字潤得自然一點。"
+policy:
+  allow_implicit_invocation: false
