@@ -6,9 +6,9 @@
 
 ## 先試這一句
 
-在 Claude Code 輸入 `/humanize-tw`，在 Codex 輸入 `$humanize-tw`，接著貼上草稿或資料。告訴它這份文字要給誰看，會更容易選對語氣。
+第一次使用請先[安裝兩個技能目錄](#安裝)。在 Claude Code 輸入 `/humanize-tw`，在 Codex 輸入 `$humanize-tw`，接著貼上草稿或資料。告訴它這份文字要給誰看，會更容易選對語氣。
 
-> 請根據案件紀錄寫一則可以直接貼給客戶的回覆。已收到退款申請，目前尚未核准。依政策，核准後預計 3 到 5 個工作天退回原付款方式。
+> 請根據案件紀錄寫一則可以直接貼給客戶的回覆。已收到退款申請，目前尚未核准。依政策，核准後預計 3 到 5 個工作天退回原付款方式。請只寫目前狀態和退款條件，省略素材未提供的審核期限與通知承諾。
 
 例如，下面這段可以直接貼給客戶。
 
@@ -84,21 +84,52 @@ flowchart LR
 
 ## 安裝
 
-解開 [雙技能安裝包](dist/Toolkit_Humanizer_Zh-TW-skills.zip)，或從本專案取得 [`humanize-tw/`](skills/humanize-tw/) 和 [`tw-work-writing/`](skills/tw-work-writing/)。把兩個目錄並排放到你要使用的專案。
+### 讓 AI 幫你安裝
 
-| 工具 | 兩個目錄都放在 | 在新聊天中輸入 |
+在你要使用這個技能的專案中，開啟 Codex 或 Claude Code，直接貼上這段。
+
+```text
+請幫我把台灣繁中工作寫作技能安裝到目前開啟的專案。
+安裝說明 https://github.com/BlekZz/Toolkit_Humanizer_Zh-TW#安裝
+
+請從 GitHub Release 下載 Toolkit_Humanizer_Zh-TW-skills.zip，依我正在使用的工具把 humanize-tw 和 tw-work-writing 兩個目錄一起安裝到本專案。請保留我的全域設定。裝好後，確認兩個目錄各有 SKILL.md，並告訴我在新聊天中要輸入哪個技能名稱。
+```
+
+### 自己安裝
+
+1. 下載並解壓 [雙技能安裝包 `Toolkit_Humanizer_Zh-TW-skills.zip`](https://github.com/BlekZz/Toolkit_Humanizer_Zh-TW/releases/download/v1.0.0/Toolkit_Humanizer_Zh-TW-skills.zip)。它是 Release 附件，在 **Assets** 底下。
+2. 在要使用這個技能的專案資料夾中，依下表建立對應的 `skills/` 目錄。把解壓後的 `humanize-tw/` 和 `tw-work-writing/` 兩個完整目錄直接放進去。
+3. 回到同一個專案開新聊天，輸入技能名稱，接著貼上草稿或素材。可以先用上方的退款範例測試。
+
+| 工具 | 兩個目錄都放在專案下的 | 在新聊天中輸入 |
 | --- | --- | --- |
 | Codex | `.agents/skills/` | `$humanize-tw` |
 | Claude Code | `.claude/skills/` | `/humanize-tw` |
 
-`humanize-tw` 是手動叫出的短入口，會使用同一個 `skills/` 目錄內的 `tw-work-writing` 規則。既有 [v1.0.0 安裝包](dist/tw-work-writing-v1.0.0.zip) 單獨裝好後，可直接用 `$tw-work-writing` 或 `/tw-work-writing`。
+以 Codex 為例，安裝後應該看到這兩個檔案和 `references/` 目錄。Claude Code 的結構相同，第一層改成 `.claude/`。
+
+```text
+你的專案/
+└── .agents/skills/
+    ├── humanize-tw/
+    │   └── SKILL.md
+    └── tw-work-writing/
+        ├── SKILL.md
+        └── references/
+```
+
+- **找不到技能**。先確認聊天開在你安裝的專案，`skills/` 底下直接就是兩個技能目錄。如果在 Codex Desktop，請選取該資料夾並開一個 Local 聊天。
+- **找不到主技能或參考檔**。用雙技能 ZIP，確認兩個目錄並排，而且 `references/` 隨 `tw-work-writing/` 一起複製。
+- **Windows Codex CLI 回報 `setup refresh had errors`**。可在 Codex Desktop 選同一個專案資料夾，開 Local 聊天重試。
+
+已有 [原版單技能 ZIP](https://github.com/BlekZz/Toolkit_Humanizer_Zh-TW/releases/download/v1.0.0/tw-work-writing-v1.0.0.zip) 時，可以直接用 `$tw-work-writing` 或 `/tw-work-writing`。要使用短入口請安裝雙技能 ZIP。
 
 [Codex 安裝說明](https://developers.openai.com/codex/skills) · [Claude Code 安裝說明](https://code.claude.com/docs/en/skills)
 
 <details>
 <summary>原版驗收與設計來源</summary>
 
-原版包含 [36 個合成驗收案例](evals/cases.json)，涵蓋根據資料起草與潤稿。`$humanize-tw` 已在 Codex Desktop Local 從雙技能安裝包實測，完成客服起草與 SOP 潤稿。[發布驗收紀錄](dev/Reference_release_v1.0.0.md#codex-desktop-local-雙技能安裝包驗收)
+原版包含 [36 個合成驗收案例](evals/cases.json)，涵蓋根據資料起草與潤稿。Codex Desktop Local 和 Claude Code 都已用 GitHub Release 的雙技能 ZIP 重裝，讀取客服參考檔並完成成稿。[乾淨專案重裝驗收](dev/Reference_release_v1.0.0.md#github-release-乾淨專案重裝驗收)
 
 - 整段模板腔的判斷參考 [writing-humanizer](https://github.com/shyuan/writing-humanizer)。
 - 依文體保護常見台灣用語與反例設計參考 [writing-skills.TW](https://github.com/aeopress/writing-skills.TW)。

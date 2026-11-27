@@ -86,6 +86,17 @@
 
 [雙技能安裝包](../dist/Toolkit_Humanizer_Zh-TW-skills.zip) 檔案本身的 SHA-256 為 `41091a952b4774007806f4644f65a19f21e849920e310a2f924038f2ca400df6`。
 
+## GitHub Release 乾淨專案重裝驗收
+
+2026-11-27 從 [GitHub Release 下載雙技能 ZIP](https://github.com/BlekZz/Toolkit_Humanizer_Zh-TW/releases/download/v1.0.0/Toolkit_Humanizer_Zh-TW-skills.zip)，核對上列 SHA-256。將解壓後的兩個目錄分別裝入兩個空白專案的 `.agents/skills/` 和 `.claude/skills/`。每邊 10 個安裝檔與解壓來源逐檔相符。
+
+| 工具 | 重裝後的實際訊號 |
+| --- | --- |
+| Codex Desktop Local | 技能清單辨識乾淨專案的 `humanize-tw` 和 `tw-work-writing`。在既有的 Local 驗收聊天以 `$humanize-tw` 呼叫，三次 `Get-Content` 的工具工作目錄都是乾淨專案。入口、相鄰主技能及 `references/customer-support.md` 的結束碼均為 `0`，客服參考檔輸出含「一對一客服回覆」。回合完成，正文保留尚未核准及核准後預計 3 到 5 個工作天退回原付款方式。 |
+| Claude Code 2.1.332 | 從乾淨專案啟動，啟動事件列出 `/humanize-tw`。呼叫後，`Read` 實際讀到同一安裝目錄的主技能與 `references/customer-support.md`，後者首行為「一對一客服回覆」。重跑結果 `is_error: false`，正文只寫已收件、尚未核准，以及核准後預計 3 到 5 個工作天退回原付款方式。 |
+
+Windows 的獨立 Codex CLI 能辨識技能並產生回覆，但本次 `Get-Content` 子程序啟動失敗，回報 `setup refresh had errors`。同一批安裝檔在 Desktop Local 讀取成功。Claude Code 的一次試跑在正文加上素材未提供的通知承諾。限定正文只寫目前狀態和退款條件後，重跑符合上述驗收結果，README 範例也補入這個限制。
+
 ## 發布檔
 
 - [安裝包](../dist/tw-work-writing-v1.0.0.zip)
